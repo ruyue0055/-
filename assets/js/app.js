@@ -1,4 +1,4 @@
-/* 《档案里的木箱山河：故宫南迁万里录》 — 叙事引擎（全屏叙事版） */
+/* 《档案里的木箱山河：故宫南迁万里录》 — 叙事引擎（全屏叙事版 + 典守员工作日志系统） */
 (function () {
   "use strict";
 
@@ -7,20 +7,21 @@
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var SAVE_KEY = "wgny_saves_v1", AUTO_KEY = "wgny_auto_v1", META_KEY = "wgny_meta_v1";
 
-  /* 收集进度（结局 / 文物）跨周目永久保存，与"这一趟"的进度分开存 */
+  /* 收集进度（结局 / 文物 / 跨周目日志图鉴）跨周目永久保存，与"这一趟"的进度分开存 */
   function loadMeta() {
     try {
       var m = JSON.parse(localStorage.getItem(META_KEY) || "null") || {};
       return {
         endings: Array.isArray(m.endings) ? m.endings : [],
-        relics: Array.isArray(m.relics) ? m.relics : []
+        relics: Array.isArray(m.relics) ? m.relics : [],
+        allDiaries: Array.isArray(m.allDiaries) ? m.allDiaries : []
       };
-    } catch (e) { return { endings: [], relics: [] }; }
+    } catch (e) { return { endings: [], relics: [], allDiaries: [] }; }
   }
   function saveMeta() {
     try {
       localStorage.setItem(META_KEY, JSON.stringify({
-        endings: state.endings, relics: state.relics, at: Date.now()
+        endings: state.endings, relics: state.relics, allDiaries: state.allDiaries, at: Date.now()
       }));
     } catch (e) { }
   }
@@ -36,6 +37,7 @@
 
   var state = {
     node: S.start, line: 0, flags: {}, relics: [], endings: [],
+    diaries: [], allDiaries: [],
     stage: 1, history: [], choicePoints: [], started: false
   };
   var typing = null, choiceVisible = false, autoMode = false, autoTimer = null;
@@ -53,14 +55,34 @@
     t.textContent = msg;
     t.classList.add("is-on");
     clearTimeout(t._tm);
-    t._tm = setTimeout(function () { t.classList.remove("is-on"); }, 2200);
+    t._tm = setTimeout(function () { t.classList.remove("is-on"); }, 2400);
   }
   function node() { return S.nodes[state.node]; }
+  function updateDiaryCount() {
+    var elCount = $("#diaryCount");
+    if (elCount) elCount.textContent = state.diaries.length;
+  }
+  function recordDiary(did) {
+    if (!did || !S.diaries || !S.diaries[did]) return false;
+    var added = false;
+    if (state.diaries.indexOf(did) < 0) {
+      state.diaries.push(did);
+      added = true;
+    }
+    if (state.allDiaries.indexOf(did) < 0) {
+      state.allDiaries.push(did);
+    }
+    updateDiaryCount();
+    saveMeta();
+    return added;
+  }
+
   function snapshot() {
     return {
-      v: 2, node: state.node, line: 0, flags: state.flags,
+      v: 3, node: state.node, line: 0, flags: JSON.parse(JSON.stringify(state.flags || {})),
       relics: state.relics.slice(), endings: state.endings.slice(),
-      stage: state.stage, history: state.history,
+      diaries: state.diaries.slice(),
+      stage: state.stage, history: state.history.slice(),
       choicePoints: state.choicePoints.slice(-12), at: Date.now()
     };
   }
@@ -70,9 +92,12 @@
     /* 收藏只增不减：读旧档不应该把已收集的东西抹掉 */
     state.relics = uniq(state.relics.concat(d.relics || []));
     state.endings = uniq(state.endings.concat(d.endings || []));
+    state.diaries = Array.isArray(d.diaries) ? d.diaries.slice() : [];
+    state.allDiaries = uniq(state.allDiaries.concat(state.diaries));
     state.stage = d.stage || 1;
     state.history = d.history || [];
     state.choicePoints = d.choicePoints || [];
+    updateDiaryCount();
     saveMeta();
   }
   function save() {
@@ -162,8 +187,20 @@
     if (!n) return;
     if (n.choice && state.line >= n.lines.length) { showChoices(n); return; }
     if (state.line < n.lines.length) { revealNext(); return; }
-    if (n.ending) { showEnding(n.ending); return; }
-    if (n.next) { startNode(n.next); return; }
+
+    /* 当前节点台词已全部读完：如果本节点配置了工作日志，先生成并弹出日志手札卡片，再进入下一幕或结局 */
+    var proceed = function () {
+      if (n.ending) { showEnding(n.ending); return; }
+      if (n.next) { startNode(n.next); return; }
+    };
+
+    if (n.diary && state.diaries.indexOf(n.diary) < 0) {
+      recordDiary(n.diary);
+      save();
+      showDiaryCard(n.diary, proceed);
+      return;
+    }
+    proceed();
   }
 
   /* ---------- 节点流转 ---------- */
@@ -264,6 +301,139 @@
     startNode(op.to);
   }
 
+  /* ---------- 典守员私人工作日志弹出卡 ---------- */
+  function renderDiaryPaperHtml(d, idxNum) {
+    var nums = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
+    var pLabel = (idxNum && nums[idxNum - 1]) ? ("第" + nums[idxNum - 1] + "页") : d.pageNo;
+    return (
+      '<article class="diary-sheet">' +
+      '<div class="ds-head">' +
+      '<span class="ds-kicker">故宫博物院 · 典守员私人工作日志</span>' +
+      '<span class="ds-seal">' + d.seal + '</span>' +
+      '</div>' +
+      '<div class="ds-date">' + d.date + '</div>' +
+      '<h4 class="ds-vol">' + d.vol + '</h4>' +
+      '<div class="ds-role">' + d.roleTag + '</div>' +
+      '<div class="ds-lines">' +
+      d.lines.map(function (p) { return '<p>' + p + '</p>'; }).join('') +
+      '</div>' +
+      '<div class="ds-foot">' +
+      '<span>典守员的旅程 · ' + pLabel + '</span>' +
+      '<em>※ 历史情境互动虚构日记（据南迁史实改编）</em>' +
+      '</div>' +
+      '</article>'
+    );
+  }
+
+  function showDiaryCard(diaryId, done) {
+    var d = S.diaries && S.diaries[diaryId];
+    if (!d) { if (done) done(); return; }
+
+    /* 手札卡片要停下来读，自动播放到此为止，按钮状态同步关掉 */
+    if (autoMode) {
+      clearTimeout(autoTimer);
+      autoMode = false;
+      var ab = $("#btnAuto");
+      if (ab) ab.classList.remove("is-on");
+    }
+
+    var card = el("div", "diary-pop");
+    card.innerHTML =
+      '<div class="dp-wrap">' +
+      '<div class="dp-badge">✦ 已自动撰入《我的万里典守录》</div>' +
+      renderDiaryPaperHtml(d, state.diaries.length) +
+      '<div class="dp-actions">' +
+      '<button class="btn-primary" id="dpContinue">合上日志 · 继续前行</button>' +
+      '</div>' +
+      '</div>';
+
+    $("#actcardHost").appendChild(card);
+    toast("已记入工作日志 · " + d.vol);
+
+    var closed = false;
+    function close(ev) {
+      if (ev) ev.stopPropagation();
+      if (closed) return;
+      closed = true;
+      card.classList.add("is-out");
+      setTimeout(function () {
+        if (card.parentNode) card.parentNode.removeChild(card);
+        if (done) done();
+      }, 420);
+    }
+
+    var btn = card.querySelector("#dpContinue");
+    if (btn) btn.addEventListener("click", close);
+    card.addEventListener("click", function (e) {
+      if (e.target === card) close(e);
+    });
+    setTimeout(function () { card.classList.add("is-in"); }, 25);
+  }
+
+  /* ---------- 打开《我的万里典守录》完整手札弹窗 ---------- */
+  function openDiaryBook(fromEnding) {
+    var curList = state.diaries.map(function (id) { return S.diaries[id]; }).filter(Boolean);
+    var html = "";
+
+    html += '<div class="diary-book-intro">' +
+      '<div class="db-title-row">' +
+      '<div><h4>《我的万里典守录》· 个人亲历手札</h4>' +
+      '<p>本卷根据你在每一幕的抉择与亲历路线实时生成。不同的去留立场、护展决定与西迁路线，皆会留下截然不同的私人工作日志。</p></div>' +
+      (curList.length ? '<button class="btn-ghost db-export-btn" id="btnExportDiary">导出 / 抄录全文</button>' : '') +
+      '</div></div>';
+
+    if (!curList.length) {
+      html += '<div class="diary-empty">当前旅程尚未完成第一幕启运，暂未写下工作日志。<br>随着每幕落定，你的私人手札将自动在此成册。</div>';
+    } else {
+      html += '<div class="diary-book-list">' +
+        curList.map(function (d, idx) { return renderDiaryPaperHtml(d, idx + 1); }).join("") +
+        '</div>';
+    }
+
+    /* 展示跨周目已收集的全分支手札进度 */
+    var totalKeys = Object.keys(S.diaries || {});
+    html += '<div class="diary-meta-bar">' +
+      '<span>本趟已写：<b>' + curList.length + '</b> 页</span>' +
+      '<span>全分支手札收集：<b>' + state.allDiaries.length + ' / ' + totalKeys.length + '</b> 篇</span>' +
+      '<span>注：本手札为第一人称历史互动虚构日记</span>' +
+      '</div>';
+
+    openModal("我的万里典守录 · 典守员工作日志", html);
+
+    var expBtn = document.getElementById("btnExportDiary");
+    if (expBtn) {
+      expBtn.addEventListener("click", function () {
+        var txt = "========================================\n" +
+          "《我的万里典守录》· 典守员私人工作日志\n" +
+          "（基于故宫文物南迁 1933—1949 历史情境虚构日记）\n" +
+          "========================================\n\n";
+        curList.forEach(function (d, i) {
+          txt += "【第" + (i + 1) + "页】" + d.vol + "\n" +
+            "时间与地点：" + d.date + "\n" +
+            "身份与经历：" + d.roleTag + "\n\n" +
+            d.lines.join("\n") + "\n\n" +
+            "—— 典守员的旅程 · 第" + (i + 1) + "页 ——\n\n";
+        });
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(txt).then(function () {
+            toast("已将整本《我的万里典守录》复制到剪贴板");
+          }).catch(function () { downloadDiaryTxt(txt); });
+        } else {
+          downloadDiaryTxt(txt);
+        }
+      });
+    }
+  }
+
+  function downloadDiaryTxt(txt) {
+    var blob = new Blob([txt], { type: "text/plain;charset=utf-8" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "我的万里典守录_典守员工作日志.txt";
+    a.click();
+    toast("已为你导出《我的万里典守录》文本手札");
+  }
+
   /* ---------- 幕次卡 ---------- */
   function showActCard(actId, done) {
     var a = S.acts.filter(function (x) { return x.id === actId; })[0];
@@ -318,6 +488,12 @@
     var e = S.endings[eid];
     if (!e) return;
     if (e.stage && e.stage > state.stage) state.stage = e.stage;
+
+    /* 自动把结局对应的终册日志写入《我的万里典守录》 */
+    if (e.diary) {
+      recordDiary(e.diary);
+    }
+
     if (state.endings.indexOf(eid) < 0) {
       state.endings.push(eid);
       saveMeta();
@@ -338,6 +514,23 @@
       detail: true,
       extra: eid === "e1" ? "beifan" : null
     });
+
+    /* 生成当前周目完整《我的万里典守录》日志内嵌预览 */
+    var curDiaries = state.diaries.map(function (id) { return S.diaries[id]; }).filter(Boolean);
+    var diaryBookHtml = "";
+    if (curDiaries.length) {
+      diaryBookHtml =
+        '<div class="ek-diary-section">' +
+        '<div class="ek-diary-head">' +
+        '<div><h3>《我的万里典守录》· 完整亲历手札（共 ' + curDiaries.length + ' 页）</h3>' +
+        '<p>根据你在此趟旅程中的每一次抉择生成 · 正式版历史互动虚构日记</p></div>' +
+        '<button class="btn-ghost" id="ekOpenFullDiary">单独翻阅 / 导出手札</button>' +
+        '</div>' +
+        '<div class="ek-diary-grid">' +
+        curDiaries.map(function (d, idx) { return renderDiaryPaperHtml(d, idx + 1); }).join("") +
+        '</div>' +
+        '</div>';
+    }
 
     var wrap = el("div", "ending-stage");
     wrap.id = "endingStage";
@@ -360,12 +553,18 @@
       "</aside>" +
       "</div>" +
       '<div class="ek-actions">' +
-      '<button class="btn-primary" id="ekAgain">再走一遍</button>' +
+      '<button class="btn-primary" id="ekDiaryBtn">翻阅《我的万里典守录》</button>' +
+      '<button class="btn-ghost" id="ekAgain">再走一遍</button>' +
       '<button class="btn-ghost" id="ekBack">回到上一次抉择</button>' +
       '<button class="btn-ghost" id="ekAlbum">结局图鉴</button>' +
-      "</div></div>";
+      "</div>" +
+      diaryBookHtml +
+      "</div>";
     document.body.appendChild(wrap);
 
+    document.getElementById("ekDiaryBtn").addEventListener("click", function () { openDiaryBook(true); });
+    var fullBtn = document.getElementById("ekOpenFullDiary");
+    if (fullBtn) fullBtn.addEventListener("click", function () { openDiaryBook(true); });
     document.getElementById("ekAgain").addEventListener("click", restart);
     document.getElementById("ekBack").addEventListener("click", backToChoice);
     document.getElementById("ekAlbum").addEventListener("click", openEndings);
@@ -383,10 +582,12 @@
   }
 
   function restart() {
-    if (!confirm("重新开始？这一趟的进度会清零，但已收录的文物与结局会保留。")) return;
+    if (!confirm("重新开始？这一趟的进度会清零，但已收录的文物、结局与全分支日志图鉴会保留。")) return;
     /* 只清"这一趟"的进度；结局与文物属于收藏，跨周目保留 */
     state.flags = {}; state.history = []; state.stage = 1;
+    state.diaries = [];
     state.choicePoints = [];
+    updateDiaryCount();
     var w = document.getElementById("endingStage");
     if (w) w.remove();
     document.body.classList.remove("is-ending");
@@ -511,7 +712,7 @@
         var n = S.nodes[s.node] || {};
         html += '<div class="slot" data-load="' + i + '"><div class="slot-no">卷 ' + (i + 1) + "</div>" +
           '<div class="slot-main"><b>' + (n.place || "—") + "・" + (n.time || "") + "</b>" +
-          "<span>" + new Date(s.at).toLocaleString("zh-CN") + " · 文物 " + (s.relics || []).length + " 件</span></div>" +
+          "<span>" + new Date(s.at).toLocaleString("zh-CN") + " · 日志 " + (s.diaries || []).length + " 页 · 文物 " + (s.relics || []).length + " 件</span></div>" +
           '<div class="slot-del" data-del="' + i + '">删除</div></div>';
       } else {
         html += '<div class="slot" data-save="' + i + '"><div class="slot-no">卷 ' + (i + 1) + "</div>" +
@@ -577,8 +778,8 @@
     var rm = document.getElementById("resetMeta");
     if (rm) rm.addEventListener("click", function (ev) {
       ev.preventDefault();
-      if (!confirm("清空全部收集记录（结局与文物）？此操作不可撤销。")) return;
-      state.endings = []; state.relics = [];
+      if (!confirm("清空全部收集记录（结局、文物与日志图鉴）？此操作不可撤销。")) return;
+      state.endings = []; state.relics = []; state.allDiaries = [];
       try { localStorage.removeItem(META_KEY); } catch (e) { }
       renderRelics();
       closeModal();
@@ -590,13 +791,13 @@
   function openAbout() {
     var html =
       "<p><b style='color:#e6d6b6'>这是一部怎样的作品</b><br>" +
-      "《档案里的木箱山河：故宫南迁万里录》以第一人称视角重走 1933—1949 年故宫文物南迁之路。五次抉择决定你走上哪条线，五个结局各自封存一段史实。</p>" +
+      "《档案里的木箱山河：故宫南迁万里录》以第一人称视角重走 1933—1949 年故宫文物南迁之路。五次抉择决定你走上哪条线，每幕结束自动生成专属《典守员私人工作日志》，最终汇编成属于你自己的《我的万里典守录》。</p>" +
       "<p><b style='color:#e6d6b6'>操作</b><br>" +
       "点击画面推进；有抉择时点选项。空格 / 回车 = 继续，Esc = 关闭浮层。<br>" +
-      "左侧「文物」抽拉栏随剧情解锁，点击可全屏鉴赏；右下角小图是南迁路线，点开可看全图。</p>" +
+      "顶栏「日志」可随时翻阅已生成的《我的万里典守录》；左侧「文物」抽拉栏随剧情解锁；右下角小图是南迁路线。</p>" +
       "<p><b style='color:#e6d6b6'>史料依据</b><br>" +
       S.sources.map(function (s) { return '<a href="' + s.url + '" target="_blank" rel="noopener">' + s.name + "</a>"; }).join("<br>") +
-      "</p><p style='font-size:12px;color:#7b7364'>说明：叙事文本依据剧本原稿整理；文物插图为手绘矢量示意，非文物照片；地图底图据 Natural Earth 1:110m 简化，路线为史实示意。</p>";
+      "</p><p style='font-size:12px;color:#7b7364'>说明：叙事文本依据剧本原稿整理；典守员私人工作日志为基于史实情境创作的游戏虚构日记；文物插图为手绘矢量示意；地图路线为史实示意。</p>";
     openModal("史料与说明", html);
   }
 
@@ -632,7 +833,8 @@
   $$(".hud-actions button").forEach(function (b) {
     b.addEventListener("click", function () {
       var a = b.dataset.act;
-      if (a === "history") openHistory();
+      if (a === "diary") openDiaryBook(false);
+      else if (a === "history") openHistory();
       else if (a === "save") openSaves();
       else if (a === "endings") openEndings();
       else if (a === "about") openAbout();
@@ -651,6 +853,14 @@
       return;
     }
     if (!$("#overlay").hidden || !$("#modal").hidden) return;
+    if ($("#actcardHost").children.length > 0) {
+      var dpBtn = $("#dpContinue");
+      if (dpBtn && (ev.key === " " || ev.key === "Enter")) {
+        ev.preventDefault();
+        dpBtn.click();
+      }
+      return;
+    }
     if (ev.key === " " || ev.key === "Enter" || ev.key === "ArrowRight") {
       if (ev.target.tagName === "BUTTON") return;
       ev.preventDefault();
@@ -706,6 +916,8 @@
   $("#btnStart").addEventListener("click", function () {
     state.started = true;
     state.node = S.start; state.line = 0; state.stage = 1;
+    state.flags = {}; state.diaries = []; state.history = []; state.choicePoints = [];
+    updateDiaryCount();
     lastAct = null; sceneNo = 0;
     $("#curtain").classList.add("is-off");
     startNode(S.start);
@@ -715,7 +927,9 @@
   var meta = loadMeta();
   state.relics = meta.relics.slice();
   state.endings = meta.endings.slice();
+  state.allDiaries = meta.allDiaries.slice();
 
+  updateDiaryCount();
   renderRelics();
   renderMiniMap();
 })();
