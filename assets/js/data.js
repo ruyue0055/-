@@ -308,7 +308,8 @@ window.STORY = (function () {
   };
 
   nodes.a3m_1 = {
-    act: "act3", time: "1937 — 1939年", place: "南京 → 宜昌 → 重庆", mood: "war",
+    act: "act3", time: "1937 — 1939年", place: "南京 → 宜昌 → 重庆", mood: "plain",
+    bg: "assets/bg/mid-route-chuanjiang.jpg",
     stage: 5,
     lines: [
       { who: "", text: "1937 年 11 月，南京沦陷前夕。你护送九千余箱文物，抢搭轮船撤往汉口。" },
@@ -323,7 +324,8 @@ window.STORY = (function () {
   };
 
   nodes.a3m_choice = {
-    act: "act3", time: "1939年春", place: "重庆 · 江边码头", mood: "war",
+    act: "act3", time: "1939年春", place: "重庆 · 江边码头", mood: "plain",
+    bg: "assets/bg/mid-route-chuanjiang.jpg",
     stage: 5, relics: ["crate19557", "boat"],
     lines: [],
     choice: {
@@ -368,7 +370,8 @@ window.STORY = (function () {
   };
 
   nodes.a3w_1 = {
-    act: "act3", time: "1937年11月 — 1939年", place: "南京 → 宝鸡 → 汉中 → 成都 → 峨嵋", mood: "war",
+    act: "act3", time: "1937年11月 — 1939年", place: "南京 → 宝鸡 → 汉中 → 成都 → 峨嵋", mood: "plain",
+    bg: "assets/bg/west-route-qinling.jpg",
     stage: 5, relics: ["truck"],
     lines: [
       { who: "", text: "你踏上了故宫西迁史上公认最艰险、最悲壮的一条路。" },
@@ -445,6 +448,7 @@ window.STORY = (function () {
     e1: {
       no: "结局一", kind: "史实主线", title: "万里北返", sub: "紫禁重光", seal: "北返",
       act: "act4", stage: 6,
+      bg: "assets/bg/return-to-forbidden-city.jpg",
       text: [
         "1948 年冬，你响应马衡院长的暗中嘱托，以清点包装繁复为由尽量延缓装箱进度，将 11178 箱故宫文物完好地留在了南京分院。",
         "20 世纪 50 年代，你再次登上北上的火车，沿着当年逃难的铁路线一路向北。",
@@ -455,6 +459,7 @@ window.STORY = (function () {
     e2: {
       no: "结局二", kind: "两岸守望", title: "隔海守望", sub: "一脉双城", seal: "守望",
       act: "act4", stage: 7,
+      bg: "assets/bg/zhongding-1948.jpg",
       text: [
         "1948 年 12 月，本着「文物去哪，故宫人就守到哪」的职责，你随老友庄尚严、那志良登上了开往基隆港的「中鼎轮」。",
         "你原以为这只是一次像去长沙、去乐山一样的短暂避险，却没料到这一别便是半生海峡。",

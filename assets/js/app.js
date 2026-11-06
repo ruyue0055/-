@@ -341,6 +341,10 @@
 
     var wrap = el("div", "ending-stage");
     wrap.id = "endingStage";
+    if (e.bg) {
+      wrap.classList.add("has-art");
+      wrap.style.backgroundImage = 'url("' + e.bg + '")';
+    }
     wrap.innerHTML =
       '<div class="ending-card-big">' +
       '<div class="ending-seal">' + e.seal + "</div>" +
