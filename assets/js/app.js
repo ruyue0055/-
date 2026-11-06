@@ -667,13 +667,25 @@
     BG.init();
     BG.set("night");
 
-    /* 空闲时预载插画，换场时不会白一下 */
-    var bgs = {};
-    Object.keys(S.nodes).forEach(function (k) {
-      var b = S.nodes[k].bg;
-      if (b) bgs[b] = 1;
-    });
-    setTimeout(function () { BG.preload(Object.keys(bgs)); }, 1200);
+    /* 排队预载插画：一张一张来，换场时不会白一下；流量/慢网下直接跳过 */
+    var conn = navigator.connection || {};
+    if (!conn.saveData && !/2g/.test(conn.effectiveType || "")) {
+      var list = [], seen = {};
+      Object.keys(S.nodes).forEach(function (k) {
+        var b = S.nodes[k].bg;
+        if (b && !seen[b]) { seen[b] = 1; list.push(b); }
+      });
+      Object.keys(S.endings).forEach(function (k) {
+        var b = S.endings[k].bg;
+        if (b && !seen[b]) { seen[b] = 1; list.push(b); }
+      });
+      var idx = 0;
+      setTimeout(function step() {
+        if (idx >= list.length) return;
+        BG.preload([list[idx++]]);
+        setTimeout(step, 400);
+      }, 1400);
+    }
   }
 
   var autoSave = null;

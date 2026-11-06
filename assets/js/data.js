@@ -106,7 +106,8 @@ window.STORY = (function () {
   };
 
   nodes.a1b_1 = {
-    act: "act1", time: "1933年1月", place: "中南海 · 集会堂", mood: "lamp",
+    act: "act1", time: "1933年1月", place: "中南海 · 集会堂", mood: "plain",
+    bg: "assets/bg/zhongnanhai-hall.jpg",
     stage: 1,
     lines: [
       { who: "", text: "你走进中南海集会堂，满屋子都是悲愤交加的北平市民与学者。" },
@@ -118,7 +119,8 @@ window.STORY = (function () {
   };
 
   nodes.a1b_choice = {
-    act: "act1", time: "1933年1月", place: "中南海 · 长廊", mood: "lamp",
+    act: "act1", time: "1933年1月", place: "中南海 · 长廊", mood: "plain",
+    bg: "assets/bg/zhongnanhai-hall.jpg",
     stage: 1,
     relics: ["songben"],
     lines: [
@@ -145,7 +147,8 @@ window.STORY = (function () {
   };
 
   nodes.a1b_2a = {
-    act: "act1", time: "1933年5月15日", place: "正阳门火车西站", mood: "night",
+    act: "act1", time: "1933年5月15日", place: "正阳门火车西站", mood: "plain",
+    bg: "assets/bg/zhengyangmen-station.jpg",
     stage: 2,
     lines: [
       { who: "", text: "1933年5月15日，第五批文物启运。你在正阳门西站，登上了最后一节押运车厢。" },
@@ -156,7 +159,8 @@ window.STORY = (function () {
   };
 
   nodes.a1b_2b = {
-    act: "act1", time: "1933年春", place: "紫禁城", mood: "snow",
+    act: "act1", time: "1933年春", place: "紫禁城", mood: "plain",
+    bg: "assets/bg/ending-guard.jpg",
     stage: 2,
     ending: "e4",
     lines: [
@@ -193,7 +197,8 @@ window.STORY = (function () {
   };
 
   nodes.a2_choice = {
-    act: "act2", time: "1935年", place: "上海 · 库房办公室", mood: "rain",
+    act: "act2", time: "1935年", place: "上海 · 库房办公室", mood: "plain",
+    bg: "assets/bg/shanghai-vault.jpg",
     stage: 2,
     lines: [],
     choice: {
@@ -250,7 +255,8 @@ window.STORY = (function () {
   /* ============ 第三幕 ============ */
 
   nodes.a3_1 = {
-    act: "act3", time: "1937年8月", place: "南京 · 朝天宫库房", mood: "war",
+    act: "act3", time: "1937年8月", place: "南京 · 朝天宫库房", mood: "plain",
+    bg: "assets/bg/chaotiangong-war.jpg",
     stage: 4,
     lines: [
       { who: "", text: "1937 年，七七事变与八一三事变相继爆发。日军飞机昼夜狂轰南京。" },
@@ -261,7 +267,8 @@ window.STORY = (function () {
   };
 
   nodes.a3_choice = {
-    act: "act3", time: "1937年8月", place: "南京 · 朝天宫库房", mood: "war",
+    act: "act3", time: "1937年8月", place: "南京 · 朝天宫库房", mood: "plain",
+    bg: "assets/bg/chaotiangong-war.jpg",
     stage: 4,
     lines: [],
     choice: {
@@ -348,7 +355,8 @@ window.STORY = (function () {
   };
 
   nodes.a3m_2a = {
-    act: "act3", time: "1939年", place: "重庆 → 乐山安谷乡", mood: "war",
+    act: "act3", time: "1939年", place: "重庆 → 乐山安谷乡", mood: "plain",
+    bg: "assets/bg/mid-route-chuanjiang.jpg",
     stage: 5,
     lines: [
       { who: "", text: "你把朱学侃的名字，记在了当日的点查簿上。" },
@@ -361,7 +369,8 @@ window.STORY = (function () {
   };
 
   nodes.a3m_2b = {
-    act: "act3", time: "1939年春", place: "重庆 · 江滩", mood: "war",
+    act: "act3", time: "1939年春", place: "重庆 · 江滩", mood: "plain",
+    bg: "assets/bg/mid-route-chuanjiang.jpg",
     stage: 5, ending: "e5",
     lines: [
       { who: "", text: "你攀上船头，朝着敌机俯冲的方向，拼命挥动那面白布。" },
@@ -388,7 +397,8 @@ window.STORY = (function () {
   /* ============ 第四幕 ============ */
 
   nodes.a4_1 = {
-    act: "act4", time: "1945年8月15日", place: "重庆", mood: "dawn",
+    act: "act4", time: "1945年8月15日", place: "重庆", mood: "plain",
+    bg: "assets/bg/chongqing-pier.jpg",
     stage: 6,
     lines: [
       { who: "", text: "1945 年 8 月 15 日，日本宣布无条件投降。" },
@@ -400,7 +410,8 @@ window.STORY = (function () {
   };
 
   nodes.a4_2 = {
-    act: "act4", time: "1948年冬", place: "南京 · 下关码头", mood: "night",
+    act: "act4", time: "1948年冬", place: "南京 · 下关码头", mood: "plain",
+    bg: "assets/bg/zhongding-1948.jpg",
     stage: 6,
     lines: [
       { who: "", text: "然而到了 1948 年冬，时代洪流再次奔涌。" },
@@ -413,7 +424,8 @@ window.STORY = (function () {
   };
 
   nodes.a4_choice = {
-    act: "act4", time: "1948年12月", place: "南京 · 下关码头", mood: "night",
+    act: "act4", time: "1948年12月", place: "南京 · 下关码头", mood: "plain",
+    bg: "assets/bg/zhongding-1948.jpg",
     stage: 6,
     lines: [],
     choice: {
@@ -470,6 +482,7 @@ window.STORY = (function () {
     e3: {
       no: "结局三", kind: "国际传播", title: "播扬四海", sub: "文明回响", seal: "播扬",
       act: "act4", stage: 7,
+      bg: "assets/bg/ending-london.jpg",
       text: [
         "亲历过 1935 年伦敦皇家艺术学院开箱盛况与万里西迁的你，深深懂得「文物不仅要藏之名山，更要传之四海」。",
         "抗战胜利后，你受聘整理故宫南迁期间在伦敦、莫斯科及贵阳、重庆、成都等地办展的全部外文档案与影像。",
@@ -480,6 +493,7 @@ window.STORY = (function () {
     e4: {
       no: "结局四", kind: "隐藏结局", title: "留守故都", sub: "孤城守望", seal: "留守",
       act: "act1", stage: 2,
+      bg: "assets/bg/ending-guard.jpg",
       text: [
         "1933 年春，当五批南迁专列远去之后，你留在了寂寥清冷的北平紫禁城。",
         "在随后的沦陷岁月里，面对日伪势力的频繁觊觎与强行征集铜器之令，你与留平同人冒着生命危险藏匿清册，以赝品和废铜周旋抵制。",
@@ -490,6 +504,7 @@ window.STORY = (function () {
     e5: {
       no: "结局五", kind: "悲壮纪念", title: "川江忠魂", sub: "浩气长存", seal: "忠魂",
       act: "act3", stage: 5,
+      bg: "assets/bg/ending-memorial.jpg",
       text: [
         "嘉陵江与岷江的涛声呜咽千年。在那场由重庆迁往乐山的紧急转运中，年轻的生命永远定格在了装满国宝的船舱里。",
         "后来，乐山安谷乡的百姓与故宫同人，在古佛寺旁立起纪念碑。每逢清明，总有人将一束白花，放在当年存放第 19557 号木箱的石案上。",
