@@ -3,145 +3,88 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>万里典守录 · 档案里的故宫南迁 1933—1949</title>
-<meta name="description" content="第一人称历史亲历 · 多分支互动文游。以一名年轻典守员的视角，走过故宫文物南迁的万里长路，五重结局，由你选择。">
-<meta name="theme-color" content="#0f0d0c">
-<meta property="og:title" content="万里典守录 · 故宫文物南迁 1933—1949">
-<meta property="og:description" content="五幕、五重结局的互动叙事。左侧文物陈列，右侧南迁路线，你来典守。">
+<title>档案里的木箱山河 · 故宫南迁万里录（1933—1949）</title>
+<meta name="description" content="第一人称历史亲历 · 多分支互动文游。《档案里的木箱山河：故宫南迁万里录》以一名年轻典守员的视角，走过故宫文物南迁的万里长路，五重结局，由你选择。">
+<meta name="theme-color" content="#05070a">
+<meta property="og:title" content="档案里的木箱山河 · 故宫南迁万里录">
+<meta property="og:description" content="五幕、五重结局的互动叙事。你来典守。">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%23110e0d'/%3E%3Crect x='9' y='9' width='46' height='46' fill='none' stroke='%23a8402f' stroke-width='3'/%3E%3Ctext x='32' y='43' font-size='30' text-anchor='middle' fill='%23c8a15a' font-family='serif'%3E守%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%23090b0e'/%3E%3Crect x='9' y='9' width='46' height='46' fill='none' stroke='%23b24a34' stroke-width='3'/%3E%3Ctext x='32' y='43' font-size='30' text-anchor='middle' fill='%23d9b877' font-family='serif'%3E守%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-<!-- 纸纹与暗角 -->
+<!-- 背景层：程序化天候底片，或你的插画 -->
+<div class="bg" id="bg"></div>
+<canvas class="fx" id="fx" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
-<div class="vignette" aria-hidden="true"></div>
 
 <!-- 顶栏 -->
-<header class="topbar">
-  <div class="brand" id="brand" role="button" tabindex="0">
-    <span class="brand-seal">守</span>
-    <span class="brand-text">
-      <b>万里典守录</b>
-      <i>故宫文物南迁 · 1933—1949</i>
-    </span>
+<header class="hud">
+  <div class="hud-left">
+    <div class="hud-brand">
+      <span class="hud-seal">守</span>
+      <b>档案里的木箱山河</b>
+    </div>
+    <div class="hud-scene">
+      <span id="hudAct">第一幕</span><em>·</em><span id="hudTime"></span><em>·</em><span id="hudPlace"></span>
+    </div>
   </div>
-
-  <nav class="act-nav" id="actNav" aria-label="幕次进度"></nav>
-
-  <div class="topbar-actions">
-    <button class="tbtn" data-act="history" title="回忆已读的句子">回想</button>
-    <button class="tbtn" data-act="save" title="存档 / 读档">卷宗</button>
-    <button class="tbtn" data-act="endings" title="结局图鉴">结局</button>
-    <button class="tbtn" data-act="about" title="史料与说明">史料</button>
-  </div>
+  <nav class="hud-actions" aria-label="功能">
+    <button data-act="history">回想</button>
+    <button data-act="save">卷宗</button>
+    <button data-act="endings">结局</button>
+    <button data-act="about">史料</button>
+  </nav>
 </header>
 
-<!-- 三栏主体 -->
-<div class="app" id="app">
+<!-- 左侧：文物 -->
+<button class="rail rail-l" id="btnRelics" aria-label="文物陈列">
+  <span class="rail-ico">◫</span>
+  <span class="rail-txt">文物</span>
+  <em class="rail-num" id="relicCount">0/13</em>
+</button>
 
-  <!-- 左：文物陈列 -->
-  <aside class="panel panel-relics" id="relicPanel">
-    <div class="panel-head">
-      <h2><span class="ph-cn">陈列</span><span class="ph-en">RELIQUARY</span></h2>
-      <span class="ph-count" id="relicCount">0 / 0</span>
-    </div>
-    <div class="relic-grid" id="relicGrid"></div>
-    <div class="panel-foot">
-      <button class="ghost-btn" id="relicAll">点击文物 · 全屏鉴赏</button>
-    </div>
-  </aside>
-
-  <!-- 中：正文 -->
-  <main class="stage" id="stage">
-    <div class="stage-inner">
-
-      <div class="scene-meta">
-        <span class="sm-act" id="smAct">第一幕</span>
-        <span class="sm-sep">·</span>
-        <span class="sm-time" id="smTime"></span>
-        <span class="sm-sep">·</span>
-        <span class="sm-place" id="smPlace"></span>
-      </div>
-
-      <article class="dossier" id="dossier">
-        <div class="file-no" id="fileNo">檔案 · 第 001 號</div>
-        <div class="dossier-ruler" aria-hidden="true"><span>典守錄</span></div>
-
-        <div class="dossier-body" id="textBody" tabindex="0" aria-live="polite">
-          <!-- 逐句注入 -->
-        </div>
-
-        <div class="choices" id="choices" hidden></div>
-
-        <div class="tap-hint" id="tapHint"><span class="th-dot"></span>点击继续</div>
-      </article>
-
-      <div class="controls">
-        <div class="ctrl-left">
-          <button class="cbtn" id="btnAuto" title="自动播放">自动</button>
-          <button class="cbtn" id="btnSkip" title="快进到本段结尾">快进</button>
-        </div>
-        <div class="ctrl-right">
-          <button class="cbtn" id="btnReplay" title="回到上一个抉择">回到抉择</button>
-          <button class="cbtn" id="btnMenu" title="重新开始">重新开始</button>
-        </div>
-      </div>
-
-      <div class="stage-progress"><i id="progressBar"></i></div>
-    </div>
-  </main>
-
-  <!-- 右：地图 -->
-  <aside class="panel panel-map" id="mapPanel">
-    <div class="panel-head">
-      <h2><span class="ph-cn">行程</span><span class="ph-en">ITINERARY</span></h2>
-      <span class="ph-count" id="mapStageLabel">北平</span>
-    </div>
-    <div class="map-wrap" id="mapWrap"></div>
-    <div class="map-log" id="mapLog"></div>
-    <div class="map-legend">
-      <span><i class="lg lg-main"></i>已行之路</span>
-      <span><i class="lg lg-ghost"></i>未择之路</span>
-      <span><i class="lg lg-sea"></i>渡海</span>
-    </div>
-    <div class="panel-foot">
-      <button class="ghost-btn" id="mapExpand">展开全图</button>
-    </div>
-  </aside>
-
+<!-- 右下：行程图 -->
+<div class="minimap" id="btnMap" role="button" tabindex="0" aria-label="南迁路线图">
+  <div class="mm-canvas" id="mapMini"></div>
+  <div class="mm-bar"><span>行程</span><em id="mapStageLabel">北平</em></div>
 </div>
 
-<!-- 手机端切换条 -->
-<nav class="mobile-tabs" id="mobileTabs">
-  <button data-tab="relics">文物</button>
-  <button data-tab="stage" class="is-on">剧情</button>
-  <button data-tab="map">行程</button>
-</nav>
+<!-- 字幕舞台 -->
+<main class="stage" id="stage">
+  <div class="stage-col">
 
-<!-- 帷幕 / 开始页 -->
-<div class="curtain" id="curtain">
-  <div class="curtain-bg" aria-hidden="true"></div>
-  <div class="curtain-inner">
-    <div class="ct-kicker">第一人称历史亲历 · 大人物视角切换</div>
-    <h1 class="ct-title"><span>万</span><span>里</span><span>典</span><span>守</span><span>录</span></h1>
-    <div class="ct-rule"><i></i><em>壹玖叁叁 — 壹玖肆玖</em><i></i></div>
-    <p class="ct-sub">档案里的故宫文物南迁</p>
-    <p class="ct-desc">二千一百一十八只木箱，一万三千余件国宝。<br>三万里山河，十六年烽火。<br>你只是其中一名年轻的典守员。</p>
-    <div class="ct-actions">
-      <button class="btn-primary" id="btnStart">开始典守</button>
-      <button class="btn-ghost" id="btnContinue" hidden>续上旧档</button>
+    <div class="choices" id="choices" hidden></div>
+
+    <div class="subtitle" id="subtitle">
+      <div class="sub-file" id="fileNo">檔案 · 第 001 號</div>
+      <div class="sub-lines" id="textBody" tabindex="0" aria-live="polite"></div>
+      <div class="sub-foot">
+        <div class="sub-ctrl">
+          <button id="btnAuto">自动</button>
+          <button id="btnSkip">快进</button>
+          <button id="btnReplay">回到抉择</button>
+        </div>
+        <div class="sub-hint" id="tapHint"><i></i>点击继续</div>
+      </div>
     </div>
-    <div class="ct-foot">
-      <span>五幕 · 五重结局</span><span>建议佩戴耳机之外的安静</span>
-    </div>
+
   </div>
-  <div class="ct-corner tl"></div><div class="ct-corner tr"></div>
-  <div class="ct-corner bl"></div><div class="ct-corner br"></div>
+</main>
+
+<!-- 文物抽拉栏 -->
+<div class="drawer drawer-l" id="relicDrawer" aria-hidden="true">
+  <div class="dr-head">
+    <h2>陈列 · 文物</h2>
+    <button class="dr-close" id="drawerClose">✕</button>
+  </div>
+  <div class="dr-body relic-grid" id="relicGrid"></div>
+  <div class="dr-foot">随剧情解锁 · 点击全屏鉴赏</div>
 </div>
 
-<!-- 通用浮层：文物 / 地图 -->
+<!-- 全屏浮层：文物鉴赏 / 全图 -->
 <div class="overlay" id="overlay" hidden>
   <div class="overlay-bar">
     <div class="ob-title" id="ovTitle"></div>
@@ -154,7 +97,7 @@
   <div class="overlay-body" id="overlayBody"></div>
 </div>
 
-<!-- 弹窗：存档 / 图鉴 / 史料 -->
+<!-- 弹窗 -->
 <div class="modal" id="modal" hidden>
   <div class="modal-card" role="dialog" aria-modal="true">
     <div class="modal-head">
@@ -165,11 +108,34 @@
   </div>
 </div>
 
+<!-- 幕次卡挂载点 -->
+<div class="actcard-host" id="actcardHost"></div>
+
+<!-- 开场 -->
+<div class="curtain" id="curtain">
+  <div class="curtain-bg" aria-hidden="true"></div>
+  <div class="curtain-inner">
+    <div class="ct-kicker">第一人称历史亲历 · 大人物视角切换</div>
+    <h1 class="ct-title"><span>档</span><span>案</span><span>里</span><span>的</span><span>木</span><span>箱</span><span>山</span><span>河</span></h1>
+    <p class="ct-sub">故宫南迁万里录</p>
+    <div class="ct-rule"><i></i><em>壹玖叁叁 — 壹玖肆玖</em><i></i></div>
+    <p class="ct-desc">二千一百一十八只木箱，一万三千余件国宝。<br>三万里山河，十六年烽火。<br>你只是其中一名年轻的典守员。</p>
+    <div class="ct-actions">
+      <button class="btn-primary" id="btnStart">开始典守</button>
+      <button class="btn-ghost" id="btnContinue" hidden>续上旧档</button>
+    </div>
+    <div class="ct-foot"><span>五幕 · 五重结局</span><span>建议全屏观看</span></div>
+  </div>
+  <div class="ct-corner tl"></div><div class="ct-corner tr"></div>
+  <div class="ct-corner bl"></div><div class="ct-corner br"></div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script src="assets/js/data.js"></script>
 <script src="assets/js/art.js"></script>
 <script src="assets/js/map.js"></script>
+<script src="assets/js/bg.js"></script>
 <script src="assets/js/app.js"></script>
 </body>
 </html>

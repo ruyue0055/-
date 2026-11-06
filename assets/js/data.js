@@ -1,4 +1,4 @@
-/* 《万里典守录》剧情数据 · 依据用户提供的剧本整理
+/* 《档案里的木箱山河：故宫南迁万里录》剧情数据 · 依据用户提供的剧本整理
    结构：acts 幕次 / nodes 场景节点 / endings 结局 / relics 文物 / cities+routes 地图
    每个节点：lines 逐句推进（打字机），choice 抉择，relics 解锁文物，stage 地图推进 */
 window.STORY = (function () {
@@ -23,6 +23,7 @@ window.STORY = (function () {
       { who: "", text: "箱里没有文物，只有一叠卷宗。纸页发脆，边角被虫蛀出细小的洞。" },
       { who: "", text: "没有编号，没有落款。只在最后一页的右下角，按着一个褪成赭色的指印，旁边一个字——" },
       { who: "", text: "「守」。", cls: "hl" },
+      { who: "", text: "箱子装的是文物，可文物背后，是山河。" },
       { who: "", text: "你翻回第一页。民国二十二年一月。" },
       { who: "", text: "从这一页起，你是故宫博物院的一名年轻典守员。" }
     ],
@@ -32,7 +33,8 @@ window.STORY = (function () {
   /* ============ 第一幕 ============ */
 
   nodes.a1_1 = {
-    act: "act1", time: "1933年1月", place: "紫禁城 · 太和殿广场", mood: "snow",
+    act: "act1", time: "1933年1月", place: "紫禁城 · 太和殿广场", mood: "plain",
+    bg: "assets/bg/tahe-square.jpg",
     stage: 1,
     relics: ["crate", "siku"],
     lines: [
@@ -45,7 +47,8 @@ window.STORY = (function () {
   };
 
   nodes.a1_2 = {
-    act: "act1", time: "同夜", place: "故宫博物院 · 理事厅", mood: "lamp",
+    act: "act1", time: "同夜", place: "故宫博物院 · 理事厅", mood: "plain",
+    bg: "assets/bg/council-hall.jpg",
     stage: 1,
     lines: [
       { who: "", text: "今晚，院里爆发了建院以来最激烈的一次争执。" },
@@ -61,10 +64,11 @@ window.STORY = (function () {
   };
 
   nodes.a1_choice = {
-    act: "act1", time: "1933年1月", place: "理事厅", mood: "lamp",
+    act: "act1", time: "1933年1月", place: "理事厅", mood: "plain",
+    bg: "assets/bg/council-hall.jpg",
     stage: 1,
     lines: [
-      { who: "", text: "去，还是留？你先要选定一个立场，再进入那个人的眼睛。" }
+      { who: "", text: "去，还是留？", cls: "hl" }
     ],
     choice: {
       prompt: "在大人物的去留争锋中，你选择支持谁，并进入谁的视角？",
@@ -86,7 +90,8 @@ window.STORY = (function () {
   };
 
   nodes.a1a_1 = {
-    act: "act1", time: "1933年2月5日 · 夜", place: "午门城楼下", mood: "night",
+    act: "act1", time: "1933年2月5日 · 夜", place: "午门城楼下", mood: "plain",
+    bg: "assets/bg/wumen-night.jpg",
     stage: 2,
     lines: [
       { who: "", text: "夜色如墨。北平全城临时戒严。" },
@@ -163,7 +168,8 @@ window.STORY = (function () {
   /* ============ 第二幕 ============ */
 
   nodes.a2_1 = {
-    act: "act2", time: "1934年", place: "上海 · 法租界天主堂街库房", mood: "rain",
+    act: "act2", time: "1934年", place: "上海 · 法租界天主堂街库房", mood: "plain",
+    bg: "assets/bg/shanghai-vault.jpg",
     stage: 2,
     lines: [
       { who: "", text: "五批共一万三千余箱故宫及古物陈列所、颐和园、国子监文物，抵达上海法租界天主堂街库房。" },
@@ -174,7 +180,8 @@ window.STORY = (function () {
   };
 
   nodes.a2_2 = {
-    act: "act2", time: "1935年", place: "上海 · 库房办公室", mood: "rain",
+    act: "act2", time: "1935年", place: "上海 · 库房办公室", mood: "plain",
+    bg: "assets/bg/shanghai-vault.jpg",
     stage: 2,
     lines: [
       { who: "马衡", text: "（手持刚校对完的《存沪文物点查清册》，神色凝重）一万三千多箱文物堆在上海租界，绝非长久之计。" },
@@ -209,7 +216,8 @@ window.STORY = (function () {
   };
 
   nodes.a2a_1 = {
-    act: "act2", time: "1935 — 1936年", place: "上海库房 → 南京朝天宫", mood: "rain",
+    act: "act2", time: "1935 — 1936年", place: "上海库房 → 南京朝天宫", mood: "plain",
+    bg: "assets/bg/shanghai-vault.jpg",
     stage: 2,
     relics: ["ledger"],
     lines: [
@@ -223,7 +231,8 @@ window.STORY = (function () {
   };
 
   nodes.a2b_1 = {
-    act: "act2", time: "1935年冬", place: "英国 · 伦敦皇家艺术学院", mood: "abroad",
+    act: "act2", time: "1935年冬", place: "英国 · 伦敦皇家艺术学院", mood: "plain",
+    bg: "assets/bg/london-exhibition.jpg",
     stage: 3,
     relics: ["ewer", "bowl", "ding"],
     lines: [
@@ -281,7 +290,8 @@ window.STORY = (function () {
   };
 
   nodes.a3s_1 = {
-    act: "act3", time: "1937 — 1944年", place: "南京 → 长沙 → 安顺 → 巴县", mood: "war",
+    act: "act3", time: "1937 — 1944年", place: "南京 → 长沙 → 安顺 → 巴县", mood: "plain",
+    bg: "assets/bg/huayan-cave.jpg",
     stage: 5, relics: ["lamp"],
     lines: [
       { who: "", text: "1937 年 8 月 14 日，你随第一批八十箱最珍贵的甲级文物，乘江轮溯江而上。" },
@@ -599,7 +609,8 @@ window.STORY = (function () {
     { id: "west", name: "西路线", stage: 5, via: ["nanjing", "xuzhou", "zhengzhou", "baoji", "hanzhong", "chengdu", "emei"], dash: false },
     { id: "gather", name: "集中重庆", stage: 6, via: ["leshan", "chongqing"], dash: true },
     { id: "back", name: "东归南京", stage: 6, via: ["chongqing", "nanjing"], dash: true },
-    { id: "taiwan", name: "分运台湾", stage: 7, via: ["nanjing", "shanghai", "keelung"], dash: true, sea: true }
+    { id: "taiwan", name: "分运台湾", stage: 7, via: ["nanjing", "shanghai", "keelung"], dash: true, sea: true },
+    { id: "beifan", name: "北返北平", stage: 9, via: ["nanjing", "xuzhou", "zhengzhou", "beiping"], dash: true, ret: true }
   ];
 
   /* 无抉择场景的默认去向（剧情主干） */
@@ -616,8 +627,8 @@ window.STORY = (function () {
   });
 
   return {
-    title: "万里典守录",
-    subtitle: "档案里的故宫南迁 · 1933—1949",
+    title: "档案里的木箱山河",
+    subtitle: "故宫南迁万里录 · 1933—1949",
     acts: acts,
     nodes: nodes,
     endings: endings,

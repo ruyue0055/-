@@ -112,12 +112,13 @@ window.MAPS = (function () {
     /* 路线 */
     var routeEls = [], shown = {}, ghost = ["south", "mid", "west"];
     data.routes.forEach(function (r) {
-      if (stage < r.stage) return;
+      if (stage < r.stage && r.id !== o.extra) return;
       var isBranch = ghost.indexOf(r.id) >= 0;
       var cls = "map-route";
       if (isBranch) cls += (o.chosen === r.id) ? " is-chosen" : " is-ghost";
       if (r.dash) cls += " is-dash";
       if (r.sea) cls += " is-sea";
+      if (r.ret) cls += " is-return";
 
       if (r.exit) {
         var sp = project(data.cities.shanghai.lon, data.cities.shanghai.lat);
