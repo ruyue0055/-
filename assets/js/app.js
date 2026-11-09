@@ -557,6 +557,7 @@
       '<button class="btn-ghost" id="ekAgain">再走一遍</button>' +
       '<button class="btn-ghost" id="ekBack">回到上一次抉择</button>' +
       '<button class="btn-ghost" id="ekAlbum">结局图鉴</button>' +
+      '<a class="btn-ghost ek-lab-btn" href="./lab/index.html">走进档案修复实验室 ↗</a>' +
       "</div>" +
       diaryBookHtml +
       "</div>";
@@ -797,7 +798,10 @@
       "顶栏「日志」可随时翻阅已生成的《我的万里典守录》；左侧「文物」抽拉栏随剧情解锁；右下角小图是南迁路线。</p>" +
       "<p><b style='color:#e6d6b6'>史料依据</b><br>" +
       S.sources.map(function (s) { return '<a href="' + s.url + '" target="_blank" rel="noopener">' + s.name + "</a>"; }).join("<br>") +
-      "</p><p style='font-size:12px;color:#7b7364'>说明：叙事文本依据剧本原稿整理；典守员私人工作日志为基于史实情境创作的游戏虚构日记；文物插图为手绘矢量示意；地图路线为史实示意。</p>";
+      "</p><p><b style='color:#e6d6b6'>配套体验</b><br>" +
+      "<a href='./lab/index.html' target='_blank' rel='noopener' style='color:#d9b877'>纸间寻迹 · 档案修复实验室 ↗</a><br>" +
+      "以故宫南迁历史文书为素材，做纸质档案的保存状况调查与四种模拟修复操作。可单独进入，无需通关。</p>" +
+      "<p style='font-size:12px;color:#7b7364'>说明：叙事文本依据剧本原稿整理；典守员私人工作日志为基于史实情境创作的游戏虚构日记；文物插图为手绘矢量示意；地图路线为史实示意。</p>";
     openModal("史料与说明", html);
   }
 
