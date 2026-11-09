@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#253d35">
+  <meta name="description" content="以故宫博物院文物南迁历史档案影像为素材的纸质档案修复数字模拟体验。">
+  <title>纸间寻迹｜档案修复实验室 V4.0</title>
+  <link rel="preconnect" href="https://img.dpm.org.cn">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="纸间寻迹首页">
+      <span class="brand-mark">纸</span>
+      <span><strong>纸间寻迹</strong><small>ARCHIVAL CONSERVATION LAB</small></span>
+    </a>
+    <nav class="topnav" aria-label="主导航">
+      <a href="#cases">修复任务</a>
+      <a href="#principles">修复原则</a>
+      <a href="#archiveRecords">我的修复档案</a>
+      <a href="#standards">规范依据</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> DIGITAL ARCHIVE CONSERVATION</p>
+        <h1>让历史的纸页<br><em>继续被看见</em></h1>
+        <p class="hero-lead">从故宫文物南迁历史文书出发，体验纸质档案的保存状况调查、修复判断与局部修复操作。四份档案对应四种不同的互动方式。</p>
+        <div class="hero-meta">
+          <span><i class="meta-dot"></i>4 份历史档案影像</span>
+          <span><i class="meta-dot"></i>4 种不同互动</span>
+          <span><i class="meta-dot"></i>规范导向的互动体验</span>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-grid"></div>
+        <div class="paper-sheet sheet-back"></div>
+        <div class="paper-sheet sheet-front">
+          <div class="paper-stamp">档案<br>修复</div>
+          <div class="paper-lines"></div>
+          <div class="paper-seal">典守<br>与保管</div>
+        </div>
+        <div class="magnifier"><span></span></div>
+        <div class="hero-caption">PRESERVE THE TRACE OF TIME</div>
+      </div>
+    </section>
+
+    <a class="cross-link wrap" href="../index.html">
+      <span>配套叙事体验</span>
+      <strong>《档案里的木箱山河》· 故宫南迁万里录</strong>
+      <span>走进那段路 ↗</span>
+    </a>
+
+    <section class="notice wrap" role="note">
+      <span class="notice-icon">!</span>
+      <p><strong>重要说明：</strong>页面中的历史档案图片来自故宫博物院“文物南迁”专题。档案影像为真实历史资料；撕裂、缺角、虫蛀、絮化等病害均为叠加在数字副本上的<strong>数字模拟效果</strong>，不代表原件实际保存状况。网页仅用于课堂互动展示，不构成真实修复操作指导。</p>
+    </section>
+
+    <section class="section wrap" id="cases">
+      <div class="section-heading">
+        <div><p class="eyebrow">SELECT A CASE</p><h2>选择一份档案，开始修复</h2></div>
+        <p class="section-note">不同档案对应不同的模拟病害与修复方法。先观察，再判断，最后操作。</p>
+      </div>
+      <div class="case-grid" id="caseGrid"></div>
+    </section>
+
+    <section class="section archive-section wrap" id="archiveRecords">
+      <div class="section-heading">
+        <div><p class="eyebrow">MY CONSERVATION RECORDS</p><h2>我的修复档案库</h2></div>
+        <p class="section-note">完成任务后，系统会自动保存模拟修复记录。记录保存在当前浏览器中。</p>
+      </div>
+      <div id="archiveList" class="archive-list"></div>
+    </section>
+
+    <section class="section principles wrap" id="principles">
+      <div class="section-heading">
+        <div><p class="eyebrow">CONSERVATION PRINCIPLES</p><h2>修复不是“翻新”</h2></div>
+        <p class="section-note">档案修复首先尊重原件信息与材料特征，避免不必要的处理。</p>
+      </div>
+      <div class="principle-grid">
+        <article><span>01</span><h3>保持原貌</h3><p>尽可能保留档案原有形态、信息与历史痕迹。</p></article>
+        <article><span>02</span><h3>最小干预</h3><p>只处理确有必要的病害，不以外观“崭新”为目标。</p></article>
+        <article><span>03</span><h3>材料适宜</h3><p>补纸、黏合剂及处理方式应与档案纸张和字迹状况相适应。</p></article>
+        <article><span>04</span><h3>记录可追溯</h3><p>修复前后影像、检测结果、处理方法与质量检查均应留有记录。</p></article>
+      </div>
+    </section>
+
+    <section class="section standards wrap" id="standards">
+      <div class="section-heading">
+        <div><p class="eyebrow">REFERENCES</p><h2>规范依据与历史来源</h2></div>
+      </div>
+      <div class="reference-list standards-grid">
+        <article class="standard-card">
+          <span>GB/T 42468.1—2023</span><strong>纸质档案抢救与修复规范：破损等级的划分</strong>
+          <p>用于认识纸质档案破损等级及其划分。</p>
+          <div><button class="standard-preview" data-pdf="standards/GB-T-42468-1-2023.pdf" data-title="GB/T 42468.1—2023 破损等级的划分">网页预览</button><a href="standards/GB-T-42468-1-2023.pdf" target="_blank" rel="noreferrer">打开 PDF ↗</a></div>
+        </article>
+        <article class="standard-card">
+          <span>GB/T 42468.2—2023</span><strong>纸质档案抢救与修复规范：档案保存状况的调查</strong>
+          <p>用于了解档案实体保存现状、保管条件及调查方法。</p>
+          <div><button class="standard-preview" data-pdf="standards/GB-T-42468-2-2023.pdf" data-title="GB/T 42468.2—2023 档案保存状况的调查">网页预览</button><a href="standards/GB-T-42468-2-2023.pdf" target="_blank" rel="noreferrer">打开 PDF ↗</a></div>
+        </article>
+        <article class="standard-card">
+          <span>GB/T 42468.3—2023</span><strong>纸质档案抢救与修复规范：修复质量要求</strong>
+          <p>用于说明修复质量检查的依据。</p>
+          <div><button class="standard-preview" data-pdf="standards/GB-T-42468-3-2023.pdf" data-title="GB/T 42468.3—2023 修复质量要求">网页预览</button><a href="standards/GB-T-42468-3-2023.pdf" target="_blank" rel="noreferrer">打开 PDF ↗</a></div>
+        </article>
+        <article class="standard-card">
+          <span>GB/Z 42468.4—2023</span><strong>纸质档案抢救与修复规范：修复操作指南</strong>
+          <p>用于了解修复流程、操作与修复档案记录。</p>
+          <div><button class="standard-preview" data-pdf="standards/GB-Z-42468-4-2023.pdf" data-title="GB/Z 42468.4—2023 修复操作指南">网页预览</button><a href="standards/GB-Z-42468-4-2023.pdf" target="_blank" rel="noreferrer">打开 PDF ↗</a></div>
+        </article>
+        <article class="standard-card">
+          <span>DA/T 25—2022</span><strong>档案修裱技术规范</strong>
+          <p>用于了解修裱材料、局部加固、修补方法与质量管理要求。</p>
+          <div><button class="standard-preview" data-pdf="standards/DA-T-25-2022.pdf" data-title="DA/T 25—2022 档案修裱技术规范">网页预览</button><a href="standards/DA-T-25-2022.pdf" target="_blank" rel="noreferrer">打开 PDF ↗</a></div>
+        </article>
+        <article class="standard-card source-card">
+          <span>HISTORICAL SOURCE</span><strong>故宫博物院《文物南迁》专题·典守与保管</strong>
+          <p>四份历史文书影像及其展品说明的来源。</p>
+          <div><a href="https://www.dpm.org.cn/topic/move_south/keeping.html" target="_blank" rel="noreferrer">查看故宫专题 ↗</a></div>
+        </article>
+      </div>
+      <p class="source-note">历史影像来源：故宫博物院《文物南迁》专题“典守与保管”。本体验为课堂互动数字体验；正式公开发布前，请核实图片使用授权及网站引用要求。</p>
+    </section>
+  </main>
+
+  <section class="workspace-shell" id="workspace" hidden>
+    <div class="workspace-top wrap">
+      <button class="text-button" id="backToCases">← 返回档案库</button>
+      <div class="workspace-title"><span class="live-dot"></span><span>数字修复工作台</span><small id="workspaceCaseName"></small></div>
+      <button class="text-button" id="restartCase">重新开始 ↺</button>
+    </div>
+    <div class="progress-wrap wrap">
+      <div class="progress-label"><span id="stageLabel">01 / 06 · 保存状况调查</span><span id="progressPercent">12%</span></div>
+      <div class="progress-track"><span id="progressBar"></span></div>
+      <div class="step-labels" id="stepLabels"></div>
+    </div>
+    <div class="workbench wrap">
+      <section class="document-panel panel">
+        <div class="panel-heading"><div><p class="eyebrow">DOCUMENT VIEWER</p><h2 id="documentTitle">档案影像</h2></div><span class="tag" id="imageSideLabel">历史影像 · 数字副本</span></div>
+        <div class="image-stage" id="imageStage">
+          <div class="image-inner" id="imageInner">
+            <img id="documentImage" alt="故宫文物南迁历史档案影像" draggable="false">
+            <svg id="damageSvg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="数字模拟病害标记"></svg>
+            <svg id="backSchematic" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="背面操作示意图"></svg>
+            <svg id="repairSvg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="档案修复互动操作区域"></svg>
+            <div class="image-watermark">数字模拟副本</div>
+          </div>
+          <div class="image-loading" id="imageFallback" hidden>档案影像暂时无法加载。请检查网络连接；历史影像由故宫博物院专题远程加载。</div>
+        </div>
+        <div class="viewer-toolbar">
+          <button class="tool-button" id="zoomOut" aria-label="缩小">−</button><span id="zoomValue">100%</span><button class="tool-button" id="zoomIn" aria-label="放大">＋</button>
+          <span class="toolbar-spacer"></span>
+          <button class="tool-button secondary" id="toggleDamage">隐藏模拟病害</button>
+          <button class="tool-button secondary" id="openOriginal">单独查看原始影像</button>
+        </div>
+        <div class="image-caption"><span id="imageCaption"></span><a id="imageSource" target="_blank" rel="noreferrer">查看故宫原始资料 ↗</a></div>
+        <div class="history-strip"><span class="history-icon">i</span><span>历史档案影像保持原样；所有病害与修复效果均由网页图层模拟，不会修改原始图片。</span></div>
+      </section>
+
+      <section class="task-panel panel">
+        <div class="task-panel-head"><p class="eyebrow">RESTORATION TASK</p><span class="task-counter" id="taskCounter">TASK 01</span></div>
+        <div id="taskContent" aria-live="polite"></div>
+      </section>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap footer-inner"><span>纸间寻迹 · 档案修复实验室</span><a href="../index.html">← 返回《档案里的木箱山河》</a><span>课堂体验项目 / 不替代专业修复判断</span></div>
+  </footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div id="gestureCursor" class="gesture-cursor" hidden aria-hidden="true"></div>
+  <div class="modal" id="modal" hidden aria-hidden="true">
+    <div class="modal-backdrop" data-modal-close></div>
+    <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <header class="modal-header"><h2 id="modalTitle">查看内容</h2><button class="modal-close" id="modalClose" aria-label="关闭">×</button></header>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-actions" id="modalActions"></div>
+    </section>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
